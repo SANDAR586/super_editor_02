@@ -747,6 +747,8 @@ class TextComponentState extends State<TextComponent> with DocumentComponent imp
         highlightWhenEmpty: widget.highlightWhenEmpty,
         hasCaret: false,
       ));
+      //widget.addListener(notifyListeners);
+      setState(() {});
     }
     return textselection1;
   }
