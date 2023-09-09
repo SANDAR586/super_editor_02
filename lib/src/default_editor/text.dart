@@ -28,8 +28,8 @@ import 'paragraph.dart';
 import 'selection_upstream_downstream.dart';
 import 'text_tools.dart';
 
-TextSelection? selection11;
-List<UserSelection> userSelections = [];
+
+
 
 class TextNode extends DocumentNode with ChangeNotifier {
   TextNode({
@@ -352,6 +352,7 @@ class TextWithHintComponent extends StatefulWidget {
     this.selectionColor = Colors.lightBlueAccent,
     this.highlightWhenEmpty = false,
     this.showDebugPaint = false,
+      required this.userSelections
   }) : super(key: key);
 
   final AttributedText text;
@@ -365,6 +366,7 @@ class TextWithHintComponent extends StatefulWidget {
   final Color selectionColor;
   final bool highlightWhenEmpty;
   final bool showDebugPaint;
+  final List<UserSelection> userSelections;
 
   @override
   State createState() => _TextWithHintComponentState();
@@ -413,6 +415,7 @@ class _TextWithHintComponentState extends State<TextWithHintComponent>
           selectionColor: widget.selectionColor,
           highlightWhenEmpty: widget.highlightWhenEmpty,
           showDebugPaint: widget.showDebugPaint,
+         
         ),
       ],
     );
@@ -422,8 +425,10 @@ class _TextWithHintComponentState extends State<TextWithHintComponent>
 /// Displays text in a document.
 ///
 /// This is the standard component for text display.
+List<UserSelection> backup = [];
 class TextComponent extends StatefulWidget {
-  const TextComponent({
+  TextComponent(
+      {
     Key? key,
     required this.text,
     this.textAlign,
@@ -435,6 +440,8 @@ class TextComponent extends StatefulWidget {
     this.selectionColor = Colors.lightBlueAccent,
     this.highlightWhenEmpty = false,
     this.showDebugPaint = false,
+      this.selectedString,
+      this.userslections1
   }) : super(key: key);
 
   final AttributedText text;
@@ -446,6 +453,11 @@ class TextComponent extends StatefulWidget {
   final Color selectionColor;
   final bool highlightWhenEmpty;
   final bool showDebugPaint;
+  List<UserSelection>? userslections1;
+  List<String?>? selectedString;
+
+
+
 
   /// The number of font pixels for each logical pixel.
   ///
@@ -464,6 +476,30 @@ class TextComponentState extends State<TextComponent> with DocumentComponent imp
 
   @visibleForTesting
   ProseTextLayout get textLayout => _textKey.currentState!.textLayout;
+
+  void textGotSelected(TextComponent component, TextSelection? textselection1) {
+    if (component.textSelection != null) {
+      TextSelection? selection11 = textselection1;
+      UserSelection userselect = UserSelection(
+        highlightStyle: SelectionHighlightStyle(color: Colors.red, borderRadius: BorderRadius.circular(10)),
+        selection: selection11!,
+        highlightWhenEmpty: widget.highlightWhenEmpty,
+        hasCaret: false,
+      );
+      if (widget.userslections1 == null) {
+        widget.userslections1 = [];
+        setState(() {
+          widget.userslections1?.add(userselect);
+          backup.add(userselect);
+        });
+      } else {
+        setState(() {
+          widget.userslections1!.add(userselect);
+          backup.add(userselect);
+        });
+      }
+    }
+  }
 
   @override
   TextNodePosition? getPositionAtOffset(Offset localOffset) {
@@ -738,18 +774,7 @@ class TextComponentState extends State<TextComponent> with DocumentComponent imp
     TextNodeSelection textselection1 = TextNodeSelection.fromTextSelection(
       textLayout.getWordSelectionAt(textPosition),
     );
-    if (widget.textSelection != null) {
-      int a = widget.textSelection!.baseOffset;
-      selection11 = textselection1;
-      userSelections.add(UserSelection(
-        highlightStyle: SelectionHighlightStyle(color: Colors.red, borderRadius: BorderRadius.circular(10)),
-        selection: selection11!,
-        highlightWhenEmpty: widget.highlightWhenEmpty,
-        hasCaret: false,
-      ));
-      //widget.addListener(notifyListeners);
-      setState(() {});
-    }
+    textGotSelected(widget, textselection1);
     return textselection1;
   }
 
@@ -826,7 +851,9 @@ class TextComponentState extends State<TextComponent> with DocumentComponent imp
           textAlign: widget.textAlign ?? TextAlign.left,
           textDirection: widget.textDirection ?? TextDirection.ltr,
           textScaleFactor: widget.textScaleFactor ?? MediaQuery.textScaleFactorOf(context),
-          userSelections: userSelections),
+          userSelections:
+              widget.userslections1 == null || widget.userslections1!.isEmpty ? backup : widget.userslections1!),
+          
     );
   }
 

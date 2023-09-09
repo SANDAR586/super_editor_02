@@ -155,6 +155,7 @@ class _AnimatedTaskComponentState extends State<_AnimatedTaskComponent>
                 selectionColor: widget.viewModel.selectionColor,
                 highlightWhenEmpty: widget.viewModel.highlightWhenEmpty,
                 showDebugPaint: widget.showDebugPaint,
+               
               ),
             ),
           ],

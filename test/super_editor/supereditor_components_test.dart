@@ -124,7 +124,7 @@ class HintTextComponentBuilder implements ComponentBuilder {
         color: const Color(0xFFDDDDDD),
       ),
       textSelection: textSelection,
-      selectionColor: componentViewModel.selectionColor,
+      selectionColor: componentViewModel.selectionColor, userSelections: [],
     );
   }
 }

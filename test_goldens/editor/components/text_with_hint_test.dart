@@ -17,6 +17,7 @@ void main() {
               textStyleBuilder: _textStyleBuilder,
               hintText: AttributedText("this is a hint..."),
               hintStyleBuilder: (_) => _hintStyle,
+              userSelections: [],
             ),
             const SizedBox(height: 24),
             TextWithHintComponent(
@@ -24,6 +25,7 @@ void main() {
               textStyleBuilder: _textStyleBuilder,
               hintText: AttributedText("this is a hint..."),
               hintStyleBuilder: (_) => _hintStyle,
+              userSelections: [],
             ),
           ],
         ),

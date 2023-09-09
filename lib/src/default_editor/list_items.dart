@@ -317,6 +317,7 @@ class UnorderedListItemComponent extends StatelessWidget {
             selectionColor: selectionColor,
             highlightWhenEmpty: highlightWhenEmpty,
             showDebugPaint: showDebugPaint,
+       
           ),
         ),
       ],
@@ -407,6 +408,7 @@ class OrderedListItemComponent extends StatelessWidget {
             selectionColor: selectionColor,
             highlightWhenEmpty: highlightWhenEmpty,
             showDebugPaint: showDebugPaint,
+           
           ),
         ),
       ],

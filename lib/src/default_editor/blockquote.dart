@@ -211,6 +211,7 @@ class BlockquoteComponent extends StatelessWidget {
           selectionColor: selectionColor,
           highlightWhenEmpty: highlightWhenEmpty,
           showDebugPaint: showDebugPaint,
+         
         ),
       ),
     );
