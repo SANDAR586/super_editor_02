@@ -729,9 +729,18 @@ class TextComponentState extends State<TextComponent> with DocumentComponent imp
 
   @override
   TextNodeSelection getWordSelectionAt(TextNodePosition textPosition) {
+    
+
+    /// list of string that is added
+    /// will create a method that take color
+    /// need to find a way to  access the list and userselection list through constractor
+
+    TextNodeSelection textselection1 = TextNodeSelection.fromTextSelection(
+      textLayout.getWordSelectionAt(textPosition),
+    );
     if (widget.textSelection != null) {
       int a = widget.textSelection!.baseOffset;
-      selection11 = widget.textSelection!.copyWith(extentOffset: a + 5);
+      selection11 = textselection1;
       userSelections.add(UserSelection(
         highlightStyle: SelectionHighlightStyle(color: Colors.red, borderRadius: BorderRadius.circular(10)),
         selection: selection11!,
@@ -739,14 +748,7 @@ class TextComponentState extends State<TextComponent> with DocumentComponent imp
         hasCaret: false,
       ));
     }
-
-    /// list of string that is added
-    /// will create a method that take color
-    /// need to find a way to  access the list and userselection list through constractor
-
-    return TextNodeSelection.fromTextSelection(
-      textLayout.getWordSelectionAt(textPosition),
-    );
+    return textselection1;
   }
 
   @override
