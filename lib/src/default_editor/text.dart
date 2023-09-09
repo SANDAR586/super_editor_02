@@ -21,13 +21,15 @@ import 'package:super_editor/src/infrastructure/keyboard.dart';
 import 'package:super_editor/src/infrastructure/raw_key_event_extensions.dart';
 import 'package:super_editor/src/infrastructure/strings.dart';
 import 'package:super_text_layout/super_text_layout.dart';
-
 import 'layout_single_column/layout_single_column.dart';
 import 'list_items.dart';
 import 'multi_node_editing.dart';
 import 'paragraph.dart';
 import 'selection_upstream_downstream.dart';
 import 'text_tools.dart';
+
+TextSelection? selection11;
+List<UserSelection> userSelections = [];
 
 class TextNode extends DocumentNode with ChangeNotifier {
   TextNode({
@@ -727,6 +729,21 @@ class TextComponentState extends State<TextComponent> with DocumentComponent imp
 
   @override
   TextNodeSelection getWordSelectionAt(TextNodePosition textPosition) {
+    if (widget.textSelection != null) {
+      int a = widget.textSelection!.baseOffset;
+      selection11 = widget.textSelection!.copyWith(extentOffset: a + 5);
+      userSelections.add(UserSelection(
+        highlightStyle: SelectionHighlightStyle(color: Colors.red, borderRadius: BorderRadius.circular(10)),
+        selection: selection11!,
+        highlightWhenEmpty: widget.highlightWhenEmpty,
+        hasCaret: false,
+      ));
+    }
+
+    /// list of string that is added
+    /// will create a method that take color
+    /// need to find a way to  access the list and userselection list through constractor
+
     return TextNodeSelection.fromTextSelection(
       textLayout.getWordSelectionAt(textPosition),
     );
@@ -747,6 +764,7 @@ class TextComponentState extends State<TextComponent> with DocumentComponent imp
     while (end < text.length && text[end] != '\n') {
       end += 1;
     }
+
     return TextNodeSelection(
       baseOffset: start,
       extentOffset: end,
@@ -798,21 +816,13 @@ class TextComponentState extends State<TextComponent> with DocumentComponent imp
     editorLayoutLog.finer('Building a TextComponent with key: ${widget.key}');
 
     return IgnorePointer(
-      child: SuperTextWithSelection.single(
-        key: _textKey,
-        richText: widget.text.computeTextSpan(_textStyleWithBlockType),
-        textAlign: widget.textAlign ?? TextAlign.left,
-        textDirection: widget.textDirection ?? TextDirection.ltr,
-        textScaleFactor: widget.textScaleFactor ?? MediaQuery.textScaleFactorOf(context),
-        userSelection: UserSelection(
-          highlightStyle: SelectionHighlightStyle(
-            color: widget.selectionColor,
-          ),
-          selection: widget.textSelection ?? const TextSelection.collapsed(offset: -1),
-          highlightWhenEmpty: widget.highlightWhenEmpty,
-          hasCaret: false,
-        ),
-      ),
+      child: SuperTextWithSelection.multi(
+          key: _textKey,
+          richText: widget.text.computeTextSpan(_textStyleWithBlockType),
+          textAlign: widget.textAlign ?? TextAlign.left,
+          textDirection: widget.textDirection ?? TextDirection.ltr,
+          textScaleFactor: widget.textScaleFactor ?? MediaQuery.textScaleFactorOf(context),
+          userSelections: userSelections),
     );
   }
 

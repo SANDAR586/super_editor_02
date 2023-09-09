@@ -15,7 +15,7 @@ void main() {
     });
 
     test('full-span style', () {
-      final text = attributedTextFromMarkdown("**abcdefghij**");
+      final text = AttributedText("**abcdefghij**");
       final textSpan = text.computeTextSpan(_styleBuilder);
 
       expect(textSpan.text, 'abcdefghij');
@@ -24,7 +24,7 @@ void main() {
     });
 
     test('single character style', () {
-      final text = attributedTextFromMarkdown("a**b**cdefghij");
+      final text = AttributedText("a**b**cdefghij");
       final textSpan = text.computeTextSpan(_styleBuilder);
 
       expect(textSpan.text, null);
@@ -75,7 +75,7 @@ void main() {
     });
 
     test('partial style', () {
-      final text = attributedTextFromMarkdown("ab**cdefgh**ij");
+      final text = AttributedText("ab**cdefgh**ij");
       final textSpan = text.computeTextSpan(_styleBuilder);
 
       expect(textSpan.text, null);
@@ -87,7 +87,7 @@ void main() {
     });
 
     test('add styled character to existing styled text', () {
-      final initialText = attributedTextFromMarkdown("abcdefghi**j**");
+      final initialText = AttributedText("abcdefghi**j**");
 
       final newText = initialText.copyAndAppend(AttributedText(
         'k',
@@ -114,7 +114,7 @@ void main() {
     });
 
     test('non-mingled varying styles', () {
-      final text = attributedTextFromMarkdown("**abcde***fghij*");
+      final text = AttributedText("**abcde***fghij*");
       final textSpan = text.computeTextSpan(_styleBuilder);
 
       expect(textSpan.text, null);

@@ -26,7 +26,7 @@ import 'package:example/demos/supertextfield/demo_textfield.dart';
 import 'package:example/demos/supertextfield/ios/demo_superiostextfield.dart';
 import 'package:example/logging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logging/logging.dart';
 import 'package:super_editor/super_editor.dart';
@@ -73,7 +73,7 @@ class SuperEditorDemoApp extends StatelessWidget {
         Locale('es', ''),
       ],
       localizationsDelegates: const [
-        ...AppLocalizations.localizationsDelegates,
+    
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
