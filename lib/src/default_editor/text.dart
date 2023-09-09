@@ -491,11 +491,13 @@ class TextComponentState extends State<TextComponent> with DocumentComponent imp
         setState(() {
           widget.userslections1?.add(userselect);
           backup.add(userselect);
+          // super.didChangeDependencies();
         });
       } else {
         setState(() {
           widget.userslections1!.add(userselect);
           backup.add(userselect);
+          // super.didChangeDependencies();
         });
       }
     }
@@ -742,10 +744,12 @@ class TextComponentState extends State<TextComponent> with DocumentComponent imp
 
   @override
   TextNodeSelection getSelectionOfEverything() {
-    return TextNodeSelection(
+ final textselection1=  TextNodeSelection(
       baseOffset: 0,
       extentOffset: widget.text.text.length,
     );
+    textGotSelected(widget, textselection1);
+    return textselection1;
   }
 
   @override
@@ -775,6 +779,7 @@ class TextComponentState extends State<TextComponent> with DocumentComponent imp
       textLayout.getWordSelectionAt(textPosition),
     );
     textGotSelected(widget, textselection1);
+  
     return textselection1;
   }
 
@@ -793,11 +798,13 @@ class TextComponentState extends State<TextComponent> with DocumentComponent imp
     while (end < text.length && text[end] != '\n') {
       end += 1;
     }
-
-    return TextNodeSelection(
+    TextNodeSelection textselection1 = TextNodeSelection(
       baseOffset: start,
       extentOffset: end,
     );
+    textGotSelected(widget, textselection1);
+
+    return textselection1;
   }
 
   @override
@@ -843,6 +850,7 @@ class TextComponentState extends State<TextComponent> with DocumentComponent imp
   @override
   Widget build(BuildContext context) {
     editorLayoutLog.finer('Building a TextComponent with key: ${widget.key}');
+    widget.userslections1 = backup;
 
     return IgnorePointer(
       child: SuperTextWithSelection.multi(
@@ -851,8 +859,7 @@ class TextComponentState extends State<TextComponent> with DocumentComponent imp
           textAlign: widget.textAlign ?? TextAlign.left,
           textDirection: widget.textDirection ?? TextDirection.ltr,
           textScaleFactor: widget.textScaleFactor ?? MediaQuery.textScaleFactorOf(context),
-          userSelections:
-              widget.userslections1 == null || widget.userslections1!.isEmpty ? backup : widget.userslections1!),
+          userSelections: widget.userslections1!),
           
     );
   }

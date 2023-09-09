@@ -237,6 +237,7 @@ class _SingleColumnDocumentLayoutState extends State<SingleColumnDocumentLayout>
     final docOffset = componentBox.localToGlobal(Offset.zero, ancestor: context.findRenderObject());
 
     return componentRect.translate(docOffset.dx, docOffset.dy);
+    
   }
 
   @override
